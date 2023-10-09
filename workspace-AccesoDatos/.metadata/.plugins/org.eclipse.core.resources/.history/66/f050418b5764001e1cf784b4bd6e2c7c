@@ -1,0 +1,54 @@
+package proyecto.dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import proyecto.modelo.Fecha;
+import proyecto.modelo.Usuario;
+
+public class UsuarioDao {
+
+	public Usuario consultarUsuario(Connection conn,String correo) {
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		Usuario usuario=new Usuario();
+		
+		try {
+			
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery("select * from usuarios where email="+correo);
+			while (rs.next()) {
+
+				
+				usuario.setIdUsuario(rs.getLong("id_usuario"));
+				usuario.setCorreo(rs.getString("email"));
+				usuario.setContraseña(rs.getString("password"));
+				usuario.setNombre(rs.getString("nombre"));
+				usuario.setApellido(rs.getString("apellidos"));
+				usuario.setCiclo(rs.getString("ciclo"));
+				usuario.setActivo(rs.getBoolean("activo"));
+				
+				return usuario;
+		
+			
+			
+		}
+		}finally {
+			try {
+		}
+			stmt.close();
+		}catch(Exception ignore) {}
+		}
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}

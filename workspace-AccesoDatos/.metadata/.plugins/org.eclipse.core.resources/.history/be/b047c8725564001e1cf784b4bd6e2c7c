@@ -1,0 +1,72 @@
+package proyecto.dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import proyecto.modelo.Registro;
+
+public class RegistroDao {
+
+	public List<Registro>consultarUsuario (Connection conn,Long idUsuario) throws SQLException{
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		Registro registro = new Registro();
+		List<Registro> registros = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery("select * from usuarios");
+			
+			
+			
+			return registros;
+			
+		}finally {
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

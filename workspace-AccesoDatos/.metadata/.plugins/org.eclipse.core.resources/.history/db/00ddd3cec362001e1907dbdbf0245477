@@ -1,0 +1,53 @@
+package ejercicio4.app;
+
+import java.time.LocalDate;
+
+import ejercicio4.modelo.Pedido;
+
+public class Test {
+
+	
+	
+	public static void main(String[] args) {
+		
+		Pedido p =new Pedido();
+		
+		p.setCliente("Miguel");
+		p.setFechaEntrega(LocalDate.of(2023, 10, 01));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

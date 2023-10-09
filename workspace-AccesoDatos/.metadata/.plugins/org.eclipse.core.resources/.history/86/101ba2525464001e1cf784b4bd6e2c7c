@@ -1,0 +1,53 @@
+package proyecto.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import proyecto.modelo.Fecha;
+
+public class FechaDao {
+
+	
+	public List<Fecha>consultarFecha(Connection conn,Integer anho,Integer evaluacion,Boolean disponibilidad) throws SQLException{
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			String sql = "select * from fechas";
+			stmt = conn.prepareStatement(sql);
+			
+			
+		}
+		
+		finally {
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

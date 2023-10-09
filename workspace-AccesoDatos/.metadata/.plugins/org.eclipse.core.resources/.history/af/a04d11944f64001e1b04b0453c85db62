@@ -1,0 +1,8 @@
+package proyecto.app;
+
+public class Test {
+
+	public Test() {
+	}
+
+}

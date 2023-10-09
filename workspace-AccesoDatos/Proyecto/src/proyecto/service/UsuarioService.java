@@ -1,0 +1,19 @@
+package proyecto.service;
+
+
+public class UsuarioService {
+
+	private OpenConnection openConn;
+	
+	public UsuarioService() {
+		openConn = new OpenConnection();
+	}
+	
+	
+	public 
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="wizardPage">
+		<list key="groupId">
+			<item value="Ejercicio01"/>
+			<item value="Ejercicio1"/>
+			<item value="EjercicioRepaso"/>
+			<item value="ceu.dam"/>
+		</list>
+		<list key="name">
+		</list>
+		<list key="artifactId">
+			<item value="Ejercicio01"/>
+			<item value="Ejercicio1"/>
+			<item value="EjercicioRepaso"/>
+			<item value="Ejemplo1"/>
+		</list>
+		<list key="version">
+			<item value="1.0.0"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+</section>

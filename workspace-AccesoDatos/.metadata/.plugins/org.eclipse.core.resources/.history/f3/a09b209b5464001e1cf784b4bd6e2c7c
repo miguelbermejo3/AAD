@@ -1,0 +1,8 @@
+package proyecto.dao;
+
+public class RegistroDao {
+
+	public RegistroDao() {
+	}
+
+}

@@ -1,0 +1,46 @@
+package proyecto.dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import proyecto.modelo.Registro;
+
+public class RegistroDao {
+
+	public List<Registro> consultarRegistroUsuario(Connection conn, Long idUsuario) throws SQLException {
+
+		Statement stmt = null;
+		ResultSet rs = null;
+		Registro registro = new Registro();
+		List<Registro> registros = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery("select * from registros where id_usuario = " + idUsuario);
+			while (rs.next()) {
+
+				registro.setDescripcion(rs.getString("descripcion"));
+				registro.setFecha(rs.getDate("fecha").toLocalDate());
+				registro.setIdRegistro(rs.getLong("id_registro"));
+				registro.setIdUsuario(rs.getLong("id_usuario"));
+				registro.setNumHoras(rs.getBigDecimal("num_horas"));
+				registros.add(registro);
+
+			}
+
+			return registros;
+
+		} finally {
+
+			try {
+				stmt.close();
+			}catch(Exception ignore) {}
+		}
+
+	}
+
+}

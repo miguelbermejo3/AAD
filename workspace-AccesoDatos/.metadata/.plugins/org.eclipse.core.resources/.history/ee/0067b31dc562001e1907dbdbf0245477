@@ -1,0 +1,61 @@
+package ejercicio4.service;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import ejercicio01.service.OpenConnection;
+import ejercicio4.dao.LineaPedidoDao;
+import ejercicio4.dao.PedidoDao;
+import ejercicio4.modelo.LineaPedido;
+import ejercicio4.modelo.Pedido;
+
+public class PedidoService {
+
+	private OpenConnection openConn;
+
+	public PedidoService() {
+
+		openConn = new OpenConnection();
+
+	}
+
+	
+	
+
+	public void registrarPedido(Pedido p) throws PedidoServiceException, SQLException {
+		Connection conn = null;
+		PedidoDao pd = new PedidoDao();
+		pd.insertarPedido(conn, p);
+		List<LineaPedido>lineaPedido=new ArrayList<>();
+		try {
+			
+			conn = openConn.getNewConnection();
+
+			
+			for (LineaPedido lineaPedido2 : lineaPedido) {
+				LineaPedidoDao lpd = new LineaPedidoDao();
+				lpd.insertarLineaPedido(conn, lineaPedido2);
+			}
+			
+			
+		
+			
+			
+			
+			
+
+		} finally {
+
+			try {
+				conn.close();
+			} catch (SQLException e) {
+
+			}
+
+		}
+
+	}
+
+}

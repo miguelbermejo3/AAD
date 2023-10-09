@@ -1,0 +1,8 @@
+package proyecto.modelo;
+
+public class Usuario {
+
+	public Usuario() {
+	}
+
+}

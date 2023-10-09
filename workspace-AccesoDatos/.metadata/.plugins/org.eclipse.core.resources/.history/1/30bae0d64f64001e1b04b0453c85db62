@@ -1,0 +1,24 @@
+package proyecto.modelo;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public class Registro {
+
+
+	private Long idRegistro;
+	private Long idUsuario;
+	private LocalDate fecha;
+	private BigDecimal numHoras;
+	private String descripcion;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

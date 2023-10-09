@@ -1,0 +1,12 @@
+package proyecto.modelo;
+
+import java.time.LocalDate;
+
+public class Fecha {
+
+	private LocalDate fecha;
+	private int año;
+	private int evaluacion;
+	private Boolean disponibilidad;
+
+}

@@ -1,0 +1,8 @@
+package proyecto.modelo;
+
+public class Registro {
+
+	public Registro() {
+	}
+
+}

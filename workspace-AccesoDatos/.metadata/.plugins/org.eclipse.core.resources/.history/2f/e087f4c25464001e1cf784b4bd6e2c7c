@@ -1,0 +1,41 @@
+package proyecto.dao;
+
+import java.sql.Connection;
+import java.util.List;
+
+import proyecto.modelo.Registro;
+
+public class RegistroDao {
+
+	public List<Registro>consultarUsuario (Connection conn,Long idUsuario){
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}
