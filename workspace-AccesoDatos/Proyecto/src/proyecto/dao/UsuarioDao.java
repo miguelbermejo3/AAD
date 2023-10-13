@@ -10,6 +10,7 @@ import proyecto.modelo.Usuario;
 
 public class UsuarioDao {
 
+	
 	public Usuario consultarUsuario(Connection conn, String correo) throws SQLException {
 
 		Statement stmt = null;
@@ -20,19 +21,22 @@ public class UsuarioDao {
 
 			stmt = conn.createStatement();
 
-			rs = stmt.executeQuery("select * from usuarios where email=" + correo);
-			while (rs.next()) {
+			rs = stmt.executeQuery("select * from usuarios where email= '" + correo+"'");
+			if (rs.next()) {
 
-				usuario.setIdUsuario(rs.getLong("id_usuario"));
+				
 				usuario.setCorreo(rs.getString("email"));
 				usuario.setContraseña(rs.getString("password"));
 				usuario.setNombre(rs.getString("nombre"));
 				usuario.setApellido(rs.getString("apellidos"));
 				usuario.setCiclo(rs.getString("ciclo"));
 				usuario.setActivo(rs.getBoolean("activo"));
-
+				return usuario;
 			}
-			return usuario;
+			else {
+				return null;
+			}
+			
 		} finally {
 			try {
 				stmt.close();
@@ -50,15 +54,14 @@ public class UsuarioDao {
 
 		try {
 
-			String sql = "insert into usuarios (id_usuario, email, password, nombre,apellidos,ciclo,acivo) values (?,?,?,?,?,?,?)";
-			stmt = conn.prepareStatement(sql);
-			stmt.setLong(1, usuario.getIdUsuario());
-			stmt.setString(2, usuario.getCorreo());
-			stmt.setString(3, usuario.getContraseña());
-			stmt.setString(4, usuario.getNombre());
-			stmt.setString(5, usuario.getApellido());
-			stmt.setString(6, usuario.getCiclo());
-			stmt.setBoolean(7, usuario.getActivo());
+			String sql = "insert into usuarios ( email, password, nombre,apellidos,ciclo,activo) values (?,?,?,?,?,?)";
+			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, usuario.getCorreo());
+			stmt.setString(2, usuario.getContraseña());
+			stmt.setString(3, usuario.getNombre());
+			stmt.setString(4, usuario.getApellido());
+			stmt.setString(5, usuario.getCiclo());
+			stmt.setBoolean(6, usuario.getActivo());
 			stmt.execute();
 
 		} finally {
