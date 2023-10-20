@@ -1,52 +1,46 @@
 package proyecto.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import proyecto.modelo.Fecha;
 
 public class FechaDao {
+	public List<Fecha> consultarFechas(Connection conn, Integer anho, Integer eval) throws SQLException {
 
-	public List<Fecha> consultarFecha(Connection conn, Integer anho, Integer evaluacion, Boolean disponibilidad)
-			throws SQLException {
-
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Fecha fecha = new Fecha();
 		List<Fecha> fechas = new ArrayList<>();
+		Fecha fecha = new Fecha();
 
 		try {
+			stmt = conn.prepareStatement("select * from fechas where año = ? and evaluacion = ?");
+			stmt.setInt(1, anho);
+			stmt.setInt(2, eval);
+			rs = stmt.executeQuery();
 
-			stmt = conn.createStatement();
-
-			rs = stmt.executeQuery("select * from fechas where año=" + anho + " and evaluacion =  " + evaluacion
-					+ "and disponibilidad = " + disponibilidad);
 			while (rs.next()) {
+				fecha.setFecha(rs.getDate("fecha").toLocalDate());
+				fecha.setAño(rs.getInt("año"));
+				fecha.setEvaluacion(rs.getInt("evaluacion"));
+				fecha.setDisponibilidad(rs.getBoolean("disponibilidad"));
 
-				Fecha f = new Fecha();
-				f.setAño(rs.getInt("año"));
-				f.setDisponibilidad(rs.getBoolean("disponibilidad"));
-				f.setEvaluacion(rs.getInt("evaluacion"));
-				f.setFecha(rs.getDate("fecha").toLocalDate());
 				fechas.add(fecha);
 
 			}
 
 			return fechas;
 
-		}
-
-		finally {
-
+		} finally {
 			try {
 				stmt.close();
-			}catch(Exception ignore) {}
+			} catch (Exception ignore) {
+			}
 		}
-
 	}
 
 }

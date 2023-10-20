@@ -3,7 +3,6 @@ package proyecto.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-
 import proyecto.dao.UsuarioDao;
 
 import proyecto.modelo.Usuario;
@@ -66,8 +65,8 @@ public class UsuarioService {
 			}
 
 		} catch (SQLException e) {
-			
-			throw new fctException("error en BBDD",e);
+
+			throw new fctException("error en BBDD", e);
 		} finally {
 
 			try {

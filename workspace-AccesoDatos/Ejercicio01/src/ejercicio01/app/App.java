@@ -15,7 +15,7 @@ public class App {
 
 		PeliculaService ps = new PeliculaService();
 		try {
-			List<Pelicula>peliculas = ps.consultarPeliculas();
+			List<Pelicula>peliculas = ps.consultarPeliculas(100);
 			for (Pelicula pelicula : peliculas) {
 				System.out.println(pelicula);
 			}

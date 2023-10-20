@@ -16,7 +16,7 @@ public class PeliculaService {
 		openConn = new OpenConnection();
 	}
 
-	public List<Pelicula> consultarPeliculas() throws PeliculasServiceException {
+	public List<Pelicula> consultarPeliculas(int longitud) throws PeliculasServiceException {
 
 		Connection conn = null;
 
@@ -29,7 +29,8 @@ public class PeliculaService {
 			Iterator<Pelicula> iterador = peliculas.iterator();
 			while (iterador.hasNext()) {
 				Pelicula peli = iterador.next();
-				if (peli.getLongitud() > 100) {
+				if (peli.getLongitud() > longitud) {
+					
 					iterador.remove();
 				}
 
