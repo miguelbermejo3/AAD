@@ -1,6 +1,7 @@
 package proyecto.modelo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Fecha {
 
@@ -8,6 +9,7 @@ public class Fecha {
 	private int anho;
 	private int evaluacion;
 	private Boolean disponibilidad;
+	
 
 	public LocalDate getFecha() {
 		return fecha;
@@ -40,6 +42,7 @@ public class Fecha {
 	public void setDisponibilidad(Boolean disponibilidad) {
 		this.disponibilidad = disponibilidad;
 	}
+	
 
 	@Override
 	public String toString() {

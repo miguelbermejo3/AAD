@@ -1,9 +1,6 @@
 package ejercicio4.service;
 
-
-
-
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,34 +14,27 @@ import ejercicio2.service.ClienteServiceException;
 @RestController
 public class ClienteServiceApi {
 
-
 	@PostMapping("/peliculas")
-	public Map<String, Cliente> consultarCliente(@RequestParam String correo) throws ClienteServiceException {
-		
-		ClienteService cs=new ClienteService();
-		Map<String,Cliente>clientes=cs.consultarClientes();
-		Collection<Cliente>keys=clientes.values();
-		for (Cliente cliente : keys) {
-			if(correo.equals(cliente.getCorreo())) {
-				return clientes;
-			}
-			else {
+	public  Cliente consultarCliente(@RequestParam String correo) throws ClienteNotFoundException {
+
+		ClienteService cs = new ClienteService();
+		Cliente c = new Cliente();
+		Map<String, Cliente> clientes = new HashMap<>();
+		try {
+			clientes = cs.consultarClientes();
+
+			c = clientes.get(correo);
+
+			if (c == null) {
 				throw new ClienteNotFoundException();
-			}
+			} 
+
+		} catch (ClienteServiceException e) {
+
+			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return c;
+
 	}
-	
-	
-	
-	
 
 }

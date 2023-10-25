@@ -23,6 +23,7 @@ public class UsuarioDao {
 			rs = stmt.executeQuery("select * from usuarios where email= '" + correo + "'");
 			if (rs.next()) {
 
+				usuario.setIdUsuario(rs.getLong("id_usuario"));
 				usuario.setCorreo(rs.getString("email"));
 				usuario.setContraseña(rs.getString("password"));
 				usuario.setNombre(rs.getString("nombre"));

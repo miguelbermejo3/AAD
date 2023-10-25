@@ -61,7 +61,7 @@ public class RegistroService {
 
 		} catch (SQLException e) {
 			System.out.println("error en la BBD");
-			throw new fctException("Ya existe el registro para dicho usuario o no existe dicho usuario en la BBDD", e);
+			throw new fctException("Ya existe el registro para dicho usuario ", e);
 
 		} finally {
 			try {
