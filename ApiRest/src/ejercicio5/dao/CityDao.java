@@ -1,12 +1,10 @@
 package ejercicio5.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,8 @@ import ejercicio5.service.ServerErrorException;
 
 public class CityDao {
 
-	public List<City> getCities(Connection conn, String filtroDescripcion) throws NotFoundException, SQLException {
+	public List<City> getCities(Connection conn, String filtroDescripcion)
+			throws NotFoundException, SQLException, ServerErrorException {
 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -32,11 +31,13 @@ public class CityDao {
 			while (rs.next()) {
 
 				ciudad = new City();
-				ciudad.setCountryId(rs.getLong("country_id"));
-				ciudad.setDescripcion(rs.getString("city"));
 				ciudad.setId(rs.getLong("city_id"));
+				ciudad.setDescripcion(rs.getString("city"));
+				ciudad.setCountryId(rs.getLong("country_id"));
+
 				ciudades.add(ciudad);
 			}
+			
 
 		}
 
@@ -44,7 +45,7 @@ public class CityDao {
 
 			try {
 				stmt.close();
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 
 		}
@@ -65,13 +66,16 @@ public class CityDao {
 
 			rs = stmt.executeQuery("select * from city where city_id=" + id);
 
-			while (rs.next()) {
+			if (rs.next()) {
 
 				ciudad = new City();
+				ciudad.setId(id);
 				ciudad.setCountryId(rs.getLong("country_id"));
 				ciudad.setDescripcion(rs.getString("city"));
-				ciudad.setId(rs.getLong("city_id"));
+				
 
+			}else {
+				return null;
 			}
 
 		}
@@ -80,7 +84,7 @@ public class CityDao {
 
 			try {
 				stmt.close();
-			} catch (Exception e) {
+			} catch (Exception ignore) {
 			}
 
 		}
@@ -112,8 +116,8 @@ public class CityDao {
 
 		try {
 			st = conn.createStatement();
-			String sql = "UPDATE city SET  city= '" + city.getDescripcion()
-					+ "' AND country_id = '" + city.getCountryId() + " where city_id='"+city.getId();
+			String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "' AND country_id = '"
+					+ city.getCountryId() + " where city_id='" + city.getId();
 			st.executeUpdate(sql);
 
 		} finally {
@@ -126,45 +130,50 @@ public class CityDao {
 		}
 
 	}
-	
-	public City updateSelectiveCity(Connection conn,City city) throws NotFoundException, ServerErrorException, SQLException{
-		
+
+	public City updateSelectiveCity(Connection conn, City city)
+			throws NotFoundException, ServerErrorException, SQLException {
+
 		Statement st = null;
 		try {
-			
-			st=conn.createStatement();
-			if(city.getDescripcion()!=null) {
-				String sql = "UPDATE city SET  city= '" + city.getDescripcion()
-				+"where city_id='"+city.getId();
-		st.executeUpdate(sql);
+
+			st = conn.createStatement();
+			if (city.getDescripcion() != null) {
+				String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "where city_id='" + city.getId();
+				st.executeUpdate(sql);
 			}
-			if(city.getCountryId()!=null) {
-				String sql = "UPDATE city SET  country_id= '" + city.getCountryId()
-				+"where city_id='"+city.getId();
-		st.executeUpdate(sql);
+			if (city.getCountryId() != null) {
+				String sql = "UPDATE city SET  country_id= '" + city.getCountryId() + "where city_id='" + city.getId();
+				st.executeUpdate(sql);
 			}
-			
-			
-		}finally {
+
+		} finally {
 			try {
 				st.close();
-			}catch(Exception ignore) {}
+			} catch (Exception ignore) {
+			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		return null;
+
+		return city;
+	}
+
+	public void deleteCity(Connection conn, Long id) throws NotFoundException, ServerErrorException, SQLException {
+
+		Statement stmt = null;
+
+		try {
+			String sql = "DELETE FROM city WHERE city_id= " + id;
+			stmt = conn.createStatement();
+			stmt.execute(sql);
+
+		} finally {
+			try {
+				stmt.close();
+			} catch (Exception ignore) {
+
+			}
+		}
+
 	}
 
 }

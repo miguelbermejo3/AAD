@@ -11,7 +11,7 @@ public interface CityService { // TODO: INCLUIR EXCEPCION SERVEREXCEPTION PARA C
 	 *   "ara", resultados válidos seráan: "arak", "okara", "caracas", etc.
 	 * - Se debe invocar mediante un GET a la URL /city?filtroDescripcion=valor 
 	 * - El parámetro filtroDescripcián es opcional. Si no llega, no se aplicará filtro.
-	 * - Tendrá que devolver un 404 si la lista de resultados es vacáa
+	 * - Tendrá que devolver un 404 si la lista de resultados es vacía
 	 * - Si hay cualquier error, lanzará un 500
 	 * @param filtroDescripcion - El parámetro se pasará con este nombre 
 	 * @return
