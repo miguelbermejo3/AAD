@@ -9,17 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ejercicio5.modelo.City;
-import ejercicio5.service.NotFoundException;
-import ejercicio5.service.ServerErrorException;
 
 public class CityDao {
 
 	public List<City> getCities(Connection conn, String filtroDescripcion)
-			throws NotFoundException, SQLException, ServerErrorException {
+			throws  SQLException {
 
 		Statement stmt = null;
 		ResultSet rs = null;
-		City ciudad = null;
+
 		List<City> ciudades = new ArrayList<>();
 
 		try {
@@ -30,14 +28,12 @@ public class CityDao {
 
 			while (rs.next()) {
 
-				ciudad = new City();
+				City ciudad = new City();
 				ciudad.setId(rs.getLong("city_id"));
 				ciudad.setDescripcion(rs.getString("city"));
 				ciudad.setCountryId(rs.getLong("country_id"));
-
 				ciudades.add(ciudad);
 			}
-			
 
 		}
 
@@ -54,7 +50,7 @@ public class CityDao {
 
 	}
 
-	public City getCity(Connection conn, Long id) throws NotFoundException, SQLException {
+	public City getCity(Connection conn, Long id) throws SQLException {
 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -70,11 +66,10 @@ public class CityDao {
 
 				ciudad = new City();
 				ciudad.setId(id);
-				ciudad.setCountryId(rs.getLong("country_id"));
 				ciudad.setDescripcion(rs.getString("city"));
-				
+				ciudad.setCountryId(rs.getLong("country_id"));
 
-			}else {
+			} else {
 				return null;
 			}
 
@@ -93,32 +88,36 @@ public class CityDao {
 
 	}
 
-	public City createCity(Connection conn, City city) throws SQLException {
+	public Long createCity(Connection conn, City city) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
 			String sql = "insert into city ( city, country_id) values (?,?)";
-			stmt = conn.prepareStatement(sql);
+			stmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, city.getDescripcion());
 			stmt.setLong(2, city.getCountryId());
 			stmt.execute();
+			ResultSet rs = stmt.getGeneratedKeys();
+			rs.next();
+			return rs.getLong(1);
 		} finally {
 			try {
 				stmt.close();
 			} catch (Exception ignore) {
 			}
 		}
-		return city;
+		
 	}
 
-	public void updateCity(Connection conn, City city) throws NotFoundException, SQLException {
+	public Integer updateCity(Connection conn, City city) throws  SQLException {
 
 		Statement st = null;
 
 		try {
 			st = conn.createStatement();
-			String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "' AND country_id = '"
-					+ city.getCountryId() + " where city_id='" + city.getId();
-			st.executeUpdate(sql);
+			String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "' , country_id = "
+					+ city.getCountryId() + " where city_id=" + city.getId();
+			
+			return st.executeUpdate(sql);
 
 		} finally {
 
@@ -128,24 +127,29 @@ public class CityDao {
 			}
 
 		}
+		
 
 	}
 
-	public City updateSelectiveCity(Connection conn, City city)
-			throws NotFoundException, ServerErrorException, SQLException {
-
+	public Integer updateSelectiveCity(Connection conn, City city)
+			throws  SQLException {
+		String sql=null;
 		Statement st = null;
 		try {
 
 			st = conn.createStatement();
 			if (city.getDescripcion() != null) {
-				String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "where city_id='" + city.getId();
-				st.executeUpdate(sql);
+				 sql = "UPDATE city SET  city= '" + city.getDescripcion() + "'where city_id=" + city.getId();
+			
 			}
-			if (city.getCountryId() != null) {
-				String sql = "UPDATE city SET  country_id= '" + city.getCountryId() + "where city_id='" + city.getId();
-				st.executeUpdate(sql);
+			else if  (city.getCountryId() != null) {
+				 sql = "UPDATE city SET  country_id= " + city.getCountryId() + "where city_id=" + city.getId();
+				
 			}
+			else if (city.getCountryId()!=null &&city.getDescripcion()!=null) {
+				updateCity(conn,city);
+			}
+			return 	st.executeUpdate(sql);
 
 		} finally {
 			try {
@@ -153,11 +157,12 @@ public class CityDao {
 			} catch (Exception ignore) {
 			}
 		}
+		
 
-		return city;
+		
 	}
 
-	public void deleteCity(Connection conn, Long id) throws NotFoundException, ServerErrorException, SQLException {
+	public void deleteCity(Connection conn, Long id) throws SQLException {
 
 		Statement stmt = null;
 

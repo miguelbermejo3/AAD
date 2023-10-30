@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ejercicio4.ApiTest;
 import ejercicio5.dao.CityDao;
 import ejercicio5.modelo.City;
 import ejercicio5.service.CityService;
@@ -32,35 +31,38 @@ import ejercicio5.service.ServerErrorException;
 public class CityApiRest implements CityService {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiTest.class, args);
+		SpringApplication.run(CityApiRest.class, args);
 	}
 
 	@Override
 	@GetMapping("/city")
-	public List<City> getCities(@RequestParam(required=false) String filtroDescripcion) throws NotFoundException, ServerErrorException  {
-		CityDao cd = new CityDao();
+	public List<City> getCities(@RequestParam(required = false) String filtroDescripcion)
+			throws NotFoundException, ServerErrorException {
+
 		List<City> ciudades = new ArrayList<>();
 		Connection conn = null;
-
+ 
 		try {
+			
 			conn = new OpenConnection().getNewConnection();
+			CityDao cd = new CityDao();
 			ciudades = cd.getCities(conn, filtroDescripcion);
 			
-			if(ciudades==null) {
+
+			if (ciudades.isEmpty()) {
 				throw new NotFoundException("No existe  Ciudad con el filtro indicado");
 			}
-			return ciudades;
+
 		} catch (SQLException e) {
-			throw new ServerErrorException("Error en el servidor",e);
+			throw new ServerErrorException("Error en el servidor", e);
 		} finally {
 			try {
 				conn.close();
 			} catch (Exception ignore) {
 			}
 		}
+		return ciudades;
 
-		
-		
 	}
 
 	@Override
@@ -73,12 +75,12 @@ public class CityApiRest implements CityService {
 		try {
 			conn = new OpenConnection().getNewConnection();
 			city = cd.getCity(conn, id);
-			if(city.getId()!=id) {
+			if (city.getId() != id) {
 				throw new NotFoundException("No existe  Ciudad con el ID indicado");
 			}
 
 		} catch (SQLException e) {
-			throw new ServerErrorException("Error en el servidor",e);
+			throw new ServerErrorException("Error en el servidor", e);
 		} finally {
 			try {
 				conn.close();
@@ -91,14 +93,17 @@ public class CityApiRest implements CityService {
 
 	@Override
 	@PostMapping("/city")
-	public City createCity( @RequestBody  City city) {
+	public City createCity(@RequestBody City city) {
 		Connection conn = null;
 
 		CityDao cd = new CityDao();
 
 		try {
 			conn = new OpenConnection().getNewConnection();
-			cd.createCity(conn, city);
+		Long idNuevo=	cd.createCity(conn, city);
+		 System.out.println("creando ciudad");
+			city.setId(idNuevo);
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -114,17 +119,21 @@ public class CityApiRest implements CityService {
 
 	@Override
 	@PutMapping("/city")
-	public void updateCity(@RequestBody   City city) throws NotFoundException, ServerErrorException {
+	public void updateCity(@RequestBody City city) throws NotFoundException, ServerErrorException {
 		CityDao cd = new CityDao();
 		Connection conn = null;
 
 		try {
 			conn = new OpenConnection().getNewConnection();
-			cd.updateCity(null, city);
+			
+			 if(cd.updateCity(conn, city)==0) {
+				 throw new NotFoundException("No se ha encontrado la ciudad");
+			 }
+			
 
 		} catch (SQLException e) {
-			throw new ServerErrorException("Error en el servidor",e);
-			
+			throw new ServerErrorException("Error en el servidor", e);
+
 		} finally {
 			try {
 				conn.close();
@@ -136,15 +145,22 @@ public class CityApiRest implements CityService {
 
 	@Override
 	@PatchMapping("/city")
-	public City updateSelectiveCity( @RequestBody  City city) throws NotFoundException, ServerErrorException {
+	public City updateSelectiveCity(@RequestBody City city) throws NotFoundException, ServerErrorException {
 		CityDao cd = new CityDao();
 		Connection conn = null;
 		try {
 			conn = new OpenConnection().getNewConnection();
-			cd.updateSelectiveCity(conn, city);
-
+			
+			
+			if(cd.updateSelectiveCity(conn, city)==0) {
+				throw new NotFoundException("no se encuentra la ciudad");
+			}
+			
+			
+			return cd.getCity(conn, city.getId());
+			
 		} catch (SQLException e) {
-			throw new ServerErrorException("Error en el servidor",e);
+			throw new ServerErrorException("Error en el servidor", e);
 
 		} finally {
 			try {
@@ -153,12 +169,12 @@ public class CityApiRest implements CityService {
 			}
 		}
 
-		return city;
+		
 	}
 
 	@Override
-	@DeleteMapping("/city")
-	public void deleteCity(@RequestParam  Long id) throws NotFoundException, ServerErrorException {
+	@DeleteMapping("/city/{id}")
+	public void deleteCity(@PathVariable Long id) throws NotFoundException, ServerErrorException {
 
 		CityDao cd = new CityDao();
 		Connection conn = null;
@@ -167,7 +183,7 @@ public class CityApiRest implements CityService {
 			cd.deleteCity(conn, id);
 
 		} catch (SQLException e) {
-			throw new ServerErrorException("Error en el servidor",e);
+			throw new ServerErrorException("Error en el servidor", e);
 
 		} finally {
 			try {
