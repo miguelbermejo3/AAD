@@ -33,5 +33,11 @@ public class City {
 		this.countryId = countryId;
 	}
 
+	@Override
+	public String toString() {
+		return "City [id=" + id + ", descripcion=" + descripcion + ", countryId=" + countryId + "]";
+	}
+	
+	
 	
 }

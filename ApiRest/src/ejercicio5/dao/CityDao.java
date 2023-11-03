@@ -12,8 +12,7 @@ import ejercicio5.modelo.City;
 
 public class CityDao {
 
-	public List<City> getCities(Connection conn, String filtroDescripcion)
-			throws  SQLException {
+	public List<City> getCities(Connection conn, String filtroDescripcion) throws SQLException {
 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -92,7 +91,7 @@ public class CityDao {
 		PreparedStatement stmt = null;
 		try {
 			String sql = "insert into city ( city, country_id) values (?,?)";
-			stmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, city.getDescripcion());
 			stmt.setLong(2, city.getCountryId());
 			stmt.execute();
@@ -105,18 +104,19 @@ public class CityDao {
 			} catch (Exception ignore) {
 			}
 		}
-		
+
 	}
 
-	public Integer updateCity(Connection conn, City city) throws  SQLException {
+	public Integer updateCity(Connection conn, City city) throws SQLException {
 
 		Statement st = null;
 
 		try {
 			st = conn.createStatement();
-			String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "' , country_id = "
-					+ city.getCountryId() + " where city_id=" + city.getId();
-			
+
+			String sql = "UPDATE city SET  city= '" + city.getDescripcion() + "' , country_id = " + city.getCountryId()
+					+ " where city_id=" + city.getId();
+
 			return st.executeUpdate(sql);
 
 		} finally {
@@ -127,29 +127,25 @@ public class CityDao {
 			}
 
 		}
-		
 
 	}
 
-	public Integer updateSelectiveCity(Connection conn, City city)
-			throws  SQLException {
-		String sql=null;
+	public Integer updateSelectiveCity(Connection conn, City city) throws SQLException {
+		String sql = null;
 		Statement st = null;
 		try {
 
 			st = conn.createStatement();
 			if (city.getDescripcion() != null) {
-				 sql = "UPDATE city SET  city= '" + city.getDescripcion() + "'where city_id=" + city.getId();
-			
+				sql = "UPDATE city SET  city= '" + city.getDescripcion() + "'where city_id=" + city.getId();
+
+			} else if (city.getCountryId() != null) {
+				sql = "UPDATE city SET  country_id= " + city.getCountryId() + "where city_id=" + city.getId();
+
+			} else if (city.getCountryId() != null && city.getDescripcion() != null) {
+				updateCity(conn, city);
 			}
-			else if  (city.getCountryId() != null) {
-				 sql = "UPDATE city SET  country_id= " + city.getCountryId() + "where city_id=" + city.getId();
-				
-			}
-			else if (city.getCountryId()!=null &&city.getDescripcion()!=null) {
-				updateCity(conn,city);
-			}
-			return 	st.executeUpdate(sql);
+			return st.executeUpdate(sql);
 
 		} finally {
 			try {
@@ -157,9 +153,7 @@ public class CityDao {
 			} catch (Exception ignore) {
 			}
 		}
-		
 
-		
 	}
 
 	public void deleteCity(Connection conn, Long id) throws SQLException {
