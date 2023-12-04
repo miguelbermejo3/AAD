@@ -31,7 +31,10 @@ public class CiudadesClientImpl implements CiudadesClient {
 			return Arrays.asList(ciudades);
 		} catch (HttpStatusCodeException e) {
 			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-				throw new CiudadNoEncontradaException("no existe ciudad con el filtro" + filtroDescripcion);
+				throw new CiudadNoEncontradaException("no existe ciudad con el filtro" + filtroDescripcion,e);
+			}
+			if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+				throw new CiudadErrorException("error en el servidor",e);
 			}
 			throw e;
 		}
@@ -49,6 +52,9 @@ public class CiudadesClientImpl implements CiudadesClient {
 			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
 				throw new CiudadNoEncontradaException("no existe ciudad con el id= " + id);
 			}
+			if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+				throw new CiudadErrorException("error en el servidor",e);
+			}
 			throw e;
 		}
 	}
@@ -56,10 +62,16 @@ public class CiudadesClientImpl implements CiudadesClient {
 	@Override
 	public Ciudad createCity(Ciudad city) throws CiudadErrorException {
 
+		try {
 		String url = urlBase + "/city";
 		city = restTemplate.postForObject(url, city, Ciudad.class);
 		return city;
-
+		}catch(HttpStatusCodeException e) {
+			if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+				throw new CiudadErrorException("error en el servidor",e);
+			}
+		}
+		return city;
 	}
 
 	@Override
@@ -70,6 +82,9 @@ public class CiudadesClientImpl implements CiudadesClient {
 		} catch (HttpStatusCodeException e) {
 			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
 				throw new CiudadNoEncontradaException("no existe ciudad : " + city);
+			}
+			if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+				throw new CiudadErrorException("error en el servidor",e);
 			}
 			throw e;
 		}
@@ -86,6 +101,9 @@ public class CiudadesClientImpl implements CiudadesClient {
 			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
 				throw new CiudadNoEncontradaException("no existe la  ciudad : " + city);
 			}
+			if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+				throw new CiudadErrorException("error en el servidor",e);
+			}
 			throw e;
 		}
 	}
@@ -98,6 +116,9 @@ public class CiudadesClientImpl implements CiudadesClient {
 		} catch (HttpStatusCodeException e) {
 			if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
 				throw new CiudadNoEncontradaException("no existe la ciudad con el id" + id);
+			}
+			if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+				throw new CiudadErrorException("error en el servidor",e);
 			}
 			throw e;
 		}

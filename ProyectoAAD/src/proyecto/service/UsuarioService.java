@@ -1,12 +1,21 @@
 package proyecto.service;
 
 import java.sql.Connection;
+
 import java.sql.SQLException;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import proyecto.dao.UsuarioDao;
 
 import proyecto.modelo.Usuario;
 
+
+@RestController
 public class UsuarioService {
 
 	private OpenConnection openConn;
@@ -15,7 +24,10 @@ public class UsuarioService {
 		openConn = new OpenConnection();
 	}
 
-	public Usuario login(String correo, String pass) throws fctException, autenticarUsuarioException {
+	
+	
+	@GetMapping("/usuario")
+	public Usuario login( @RequestParam  String correo, @RequestParam  String pass) throws fctException, autenticarUsuarioException {
 		Connection conn = null;
 		UsuarioDao ud = new UsuarioDao();
 		Usuario usuario = new Usuario();
@@ -55,7 +67,10 @@ public class UsuarioService {
 
 	}
 
-	public void altaUsuario(Usuario user) throws fctException, autenticarUsuarioException {
+	
+	
+	@PostMapping("/usuario")
+	public void altaUsuario(@RequestBody  Usuario user) throws fctException, autenticarUsuarioException {
 
 		Connection conn = null;
 		UsuarioDao ud = new UsuarioDao();

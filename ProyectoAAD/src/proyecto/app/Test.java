@@ -23,7 +23,7 @@ public class Test {
 	try {
 		rs.crearRegistroUsuario(r);
 	} catch (fctException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 	}
 		
@@ -32,5 +32,10 @@ public class Test {
 		
 		
 	}
+	
+	
+	
+	
+	
 
 }

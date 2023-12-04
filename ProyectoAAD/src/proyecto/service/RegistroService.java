@@ -5,9 +5,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import proyecto.dao.RegistroDao;
 import proyecto.modelo.Registro;
 
+@RestController
 public class RegistroService {
 
 	private OpenConnection openConn;
@@ -17,10 +24,13 @@ public class RegistroService {
 		openConn = new OpenConnection();
 	}
 
-	public List<Registro> consultarRegistroUsuario(Long idUsuario) throws fctException, autenticarUsuarioException {
+	@GetMapping("/registro/usuario/{idUsuario}")
+	public List<Registro> consultarRegistroUsuario(@PathVariable Long idUsuario)
+			throws fctException {
 		Connection conn = null;
 		RegistroDao rd = new RegistroDao();
 		try {
+			System.out.println("consultando registros con id " + idUsuario);
 			conn = openConn.getNewConnection();
 
 			listadoRegistro = rd.consultarPorUsuario(conn, idUsuario);
@@ -38,7 +48,8 @@ public class RegistroService {
 
 	}
 
-	public void crearRegistroUsuario(Registro registro) throws fctException {
+	@PostMapping("/registro")
+	public void crearRegistroUsuario(@RequestBody Registro registro) throws fctException{
 		Connection conn = null;
 		RegistroDao rd = new RegistroDao();
 		List<Registro> registros = new ArrayList<Registro>();
@@ -52,6 +63,7 @@ public class RegistroService {
 
 				if (registro2.getFecha() == registro.getFecha()) {
 					existe = true;
+					throw new fctException("el registro ya existe");
 				}
 
 			}
@@ -71,9 +83,5 @@ public class RegistroService {
 		}
 
 	}
-	
-	
-	
-	
 
 }

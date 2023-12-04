@@ -6,9 +6,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import proyecto.dao.FechaDao;
 import proyecto.modelo.Fecha;
-
+@RestController
 public class FechaService {
 	private OpenConnection openConn;
 	private List<Fecha> listaFechas;
@@ -17,6 +20,7 @@ public class FechaService {
 		openConn = new OpenConnection();
 	}
 
+	@GetMapping("/fecha")
 	public List<Fecha> consultarFechasActuales() {
 		FechaDao fd = new FechaDao();
 

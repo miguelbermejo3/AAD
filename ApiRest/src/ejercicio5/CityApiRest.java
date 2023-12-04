@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ejercicio5.cliente.CityClienteRest;
+
 import ejercicio5.dao.CityDao;
 import ejercicio5.modelo.City;
 import ejercicio5.service.CityService;
