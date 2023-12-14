@@ -30,7 +30,7 @@ public class CsvSampleService {
 				writer.write(pelicula.getNombre()+"\n");
 			}
 		}catch(IOException e ) {
-			throw new FicheroException("Error escribiendo CSV"+e);
+			throw new FicheroException("Error al generar el  CSV"+e);
 		}finally {
 			if(writer!=null) {
 				try {

@@ -9,9 +9,13 @@ import java.util.Scanner;
 
 public class CsvSampleService {
 
-	public void convertirCsv(String ficheroEntrada, String ficheroSalida) throws FicheroException {
-		List<String[]> filas = leerCsv(ficheroEntrada);
-		escribirCsv(filas, ficheroSalida);
+	public void convertirCsv(String ficheroEntrada, String ficheroSalida) throws FicheroException, IOException {
+		File fileIn= new File(ficheroEntrada);
+		File fileOut= new File(ficheroSalida);
+		
+		Scanner sc= new Scanner(fileIn);
+		FileWriter writer =  new FileWriter(ficheroSalida);
+		
 	}
 
 	public List<String[]> leerCsv(String ruta) throws FicheroException {
@@ -38,9 +42,9 @@ public class CsvSampleService {
 
 	public void escribirCsv(List<String[]> filas, String ficheroSalida) throws FicheroException {
 
-		FileWriter writer = null;
+		
 		try {
-			writer = new FileWriter(ficheroSalida);
+			writer 
 			for (String[] campos : filas) {
 				StringBuilder nuevaLinea = new StringBuilder();
 				for (int i = 0; i < campos.length; i++) {

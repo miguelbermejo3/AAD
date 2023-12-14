@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import ejercicio5.CityApiRest;
 import ejercicio5.modelo.City;
-
+import ejercicio5.service.ServerErrorException;
 
 public class CsvSampleService {
 
@@ -17,58 +17,40 @@ public class CsvSampleService {
 
 	}
 
-	public void escribirCsvAsignatura(String ruta)  {
-		CityApiRest services = new CityApiRest();
-		List<City> ciudades;
-		try {
-			ciudades = leerCsvCiudad(ruta);
-			for (City city : ciudades) {
-				services.createCity(city);
-				
-			}
-		} catch (FicheroException e) {
-			
-			e.printStackTrace();
-		}
-		
-		//}
-		
-		// writer.write("Hola clase"); 
 
-			}
-		
+
+	public void importarCiudadCSV(String ruta) throws FicheroException {
+		Scanner sc=null;
+		try {
+			File file = new File(ruta);
+			CityApiRest services = new CityApiRest();
 	
-
-	public List<City> leerCsvCiudad(String ruta) throws FicheroException {
-
-		List<City> ciudades = new ArrayList<City>();
-		File file = new File(ruta);
-		Scanner sc = null;
-		try {
-				
-			sc = new Scanner(file);
+			 sc = new Scanner(file);
 			while (sc.hasNext()) {
-				String line = sc.nextLine();
 				City ciudad = new City();
-				String[] campos = line.split("	");
+				String linea = sc.nextLine();
+				
+				String[] campos = linea.split("\t");
 
 				ciudad.setDescripcion(campos[0]);
 				ciudad.setCountryId((long) Integer.parseInt(campos[1]));
 
-				ciudades.add(ciudad);
-			}
+				services.createCity(ciudad);
+				}
+			sc.close();
 
-			return ciudades;
+			
 		}
 
 		catch (FileNotFoundException e) {
-			throw new FicheroException("No existe el fichero en la ruta indicada" + e);
-		} finally {
-			if (sc != null) {
-				sc.close();
-			}
-
+			throw new FicheroException("fichero no encontrado",e);
+	}finally {
+		try {
+			sc.close();
+		}catch(Exception ignore) {
+			
 		}
 	}
 
-}
+	}
+	}
