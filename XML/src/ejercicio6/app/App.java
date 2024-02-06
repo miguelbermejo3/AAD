@@ -3,7 +3,6 @@ package ejercicio6.app;
 import java.util.List;
 
 import ejercicio6.modelo.Pelicula;
-import ejercicio6.service.Chat;
 import ejercicio6.service.XmlSampleService;
 
 public class App {

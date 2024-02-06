@@ -44,7 +44,7 @@ public class CsvSampleService {
 
 		
 		try {
-			writer 
+			 
 			for (String[] campos : filas) {
 				StringBuilder nuevaLinea = new StringBuilder();
 				for (int i = 0; i < campos.length; i++) {
