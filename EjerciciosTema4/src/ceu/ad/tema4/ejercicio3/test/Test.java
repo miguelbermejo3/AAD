@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import ceu.ad.tema4.ejercicio3.service.NotFoundException;
 import ceu.ad.tema4.ejercicio3.modelo.CentroComercial;
 import ceu.ad.tema4.ejercicio3.modelo.Marca;
 import ceu.ad.tema4.ejercicio3.modelo.Pais;
@@ -12,9 +13,6 @@ import ceu.ad.tema4.ejercicio3.modelo.Tienda;
 import ceu.ad.tema4.ejercicio3.service.ComercialException;
 import ceu.ad.tema4.ejercicio3.service.ComercialService;
 import ceu.ad.tema4.ejercicio3.service.ComercialServiceImpl;
-import ceu.ad.tema4.ejercicio3.service.NotFoundException;
-
-
 
 public class Test {
 	// CADA VEZ QUE EJECUTES EL TEST, PASA ESTE SCRIPT EN BBDD:

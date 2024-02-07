@@ -1,7 +1,13 @@
 package ceu.ad.tema4.ejercicio3.modelo;
 
-public class Pais {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
+public class Pais {
+	@Id
+	@Column(name = "cod_pais")
 	private String codigo;
 	private String descripcion;
 	

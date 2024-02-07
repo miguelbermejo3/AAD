@@ -1,11 +1,28 @@
 package ceu.ad.tema4.ejercicio3.modelo;
 
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="tiendas")
 public class Tienda {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String ubicacion;
 	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "cod_marca", nullable = false)
 	private Marca marca;
 	
 	public Long getId() {
